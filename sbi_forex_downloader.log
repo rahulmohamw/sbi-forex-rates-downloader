@@ -6,3 +6,7 @@
 2025-05-12 07:38:45,315 - SBI_FOREX_DOWNLOADER - INFO - Checking URL: https://sbi.co.in/documents/16012/1400784/FOREX_CARD_RATES.pdf
 2025-05-12 07:38:56,190 - SBI_FOREX_DOWNLOADER - INFO - No new forex rates available (content hash is the same).
 2025-05-12 07:38:56,190 - SBI_FOREX_DOWNLOADER - INFO - Downloader execution completed
+2025-05-12 11:36:40,528 - SBI_FOREX_DOWNLOADER - INFO - SBI Forex Card Rates Downloader Started
+2025-05-12 11:36:40,528 - SBI_FOREX_DOWNLOADER - INFO - Checking URL: https://sbi.co.in/documents/16012/1400784/FOREX_CARD_RATES.pdf
+2025-05-12 11:36:43,560 - SBI_FOREX_DOWNLOADER - INFO - No new forex rates available (content hash is the same).
+2025-05-12 11:36:43,560 - SBI_FOREX_DOWNLOADER - INFO - Downloader execution completed
