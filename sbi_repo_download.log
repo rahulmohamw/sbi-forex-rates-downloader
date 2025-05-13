@@ -1,0 +1,59 @@
+2025-05-13 06:29:00,198 - SBI_REPO_DOWNLOADER - INFO - SBI GitHub Repository Downloader Started
+2025-05-13 06:29:00,199 - SBI_REPO_DOWNLOADER - INFO - Downloading files up to 2025-05-08
+2025-05-13 06:29:00,199 - SBI_REPO_DOWNLOADER - INFO - Processing year directories: 2020, 2021, 2022, 2023, 2024, 2025
+2025-05-13 06:29:00,199 - SBI_REPO_DOWNLOADER - INFO - Testing repository access to https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files
+2025-05-13 06:29:00,201 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.github.com:443
+2025-05-13 06:29:00,287 - urllib3.connectionpool - DEBUG - https://api.github.com:443 "GET /repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files HTTP/1.1" 200 587
+2025-05-13 06:29:00,287 - SBI_REPO_DOWNLOADER - INFO - Repository access successful
+2025-05-13 06:29:00,287 - SBI_REPO_DOWNLOADER - INFO - Available years in repository: ['2020', '2021', '2022', '2023', '2024', '2025']
+2025-05-13 06:29:00,288 - SBI_REPO_DOWNLOADER - INFO - Created directory: downloads/2020
+2025-05-13 06:29:00,288 - SBI_REPO_DOWNLOADER - INFO - Created directory: downloads/2021
+2025-05-13 06:29:00,288 - SBI_REPO_DOWNLOADER - INFO - Created directory: downloads/2022
+2025-05-13 06:29:00,288 - SBI_REPO_DOWNLOADER - INFO - Created directory: downloads/2023
+2025-05-13 06:29:00,288 - SBI_REPO_DOWNLOADER - INFO - Created directory: downloads/2024
+2025-05-13 06:29:00,288 - SBI_REPO_DOWNLOADER - INFO - Created directory: downloads/2025
+2025-05-13 06:29:00,289 - SBI_REPO_DOWNLOADER - INFO - Checking existing files structure:
+2025-05-13 06:29:00,289 - SBI_REPO_DOWNLOADER - INFO - Directory 2020: 0 PDF files
+2025-05-13 06:29:00,289 - SBI_REPO_DOWNLOADER - INFO - Directory 2021: 0 PDF files
+2025-05-13 06:29:00,289 - SBI_REPO_DOWNLOADER - INFO - Directory 2022: 0 PDF files
+2025-05-13 06:29:00,289 - SBI_REPO_DOWNLOADER - INFO - Directory 2023: 0 PDF files
+2025-05-13 06:29:00,289 - SBI_REPO_DOWNLOADER - INFO - Directory 2024: 0 PDF files
+2025-05-13 06:29:00,290 - SBI_REPO_DOWNLOADER - INFO - Directory 2025: 0 PDF files
+2025-05-13 06:29:00,290 - SBI_REPO_DOWNLOADER - INFO - Processing year directory: 2020 from https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2020
+2025-05-13 06:29:00,291 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.github.com:443
+2025-05-13 06:29:00,394 - urllib3.connectionpool - DEBUG - https://api.github.com:443 "GET /repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2020 HTTP/1.1" 200 948
+2025-05-13 06:29:00,395 - SBI_REPO_DOWNLOADER - INFO - Found 12 items in 2020 directory
+2025-05-13 06:29:00,395 - SBI_REPO_DOWNLOADER - INFO - Processing year directory: 2021 from https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2021
+2025-05-13 06:29:00,396 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.github.com:443
+2025-05-13 06:29:00,472 - urllib3.connectionpool - DEBUG - https://api.github.com:443 "GET /repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2021 HTTP/1.1" 200 945
+2025-05-13 06:29:00,473 - SBI_REPO_DOWNLOADER - INFO - Found 12 items in 2021 directory
+2025-05-13 06:29:00,473 - SBI_REPO_DOWNLOADER - INFO - Processing year directory: 2022 from https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2022
+2025-05-13 06:29:00,474 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.github.com:443
+2025-05-13 06:29:00,566 - urllib3.connectionpool - DEBUG - https://api.github.com:443 "GET /repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2022 HTTP/1.1" 200 954
+2025-05-13 06:29:00,567 - SBI_REPO_DOWNLOADER - INFO - Found 12 items in 2022 directory
+2025-05-13 06:29:00,567 - SBI_REPO_DOWNLOADER - INFO - Processing year directory: 2023 from https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2023
+2025-05-13 06:29:00,567 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.github.com:443
+2025-05-13 06:29:00,658 - urllib3.connectionpool - DEBUG - https://api.github.com:443 "GET /repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2023 HTTP/1.1" 200 933
+2025-05-13 06:29:00,659 - SBI_REPO_DOWNLOADER - INFO - Found 12 items in 2023 directory
+2025-05-13 06:29:00,659 - SBI_REPO_DOWNLOADER - INFO - Processing year directory: 2024 from https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2024
+2025-05-13 06:29:00,660 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.github.com:443
+2025-05-13 06:29:00,751 - urllib3.connectionpool - DEBUG - https://api.github.com:443 "GET /repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2024 HTTP/1.1" 200 941
+2025-05-13 06:29:00,752 - SBI_REPO_DOWNLOADER - INFO - Found 12 items in 2024 directory
+2025-05-13 06:29:00,752 - SBI_REPO_DOWNLOADER - INFO - Processing year directory: 2025 from https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2025
+2025-05-13 06:29:00,753 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): api.github.com:443
+2025-05-13 06:29:00,835 - urllib3.connectionpool - DEBUG - https://api.github.com:443 "GET /repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files/2025 HTTP/1.1" 200 524
+2025-05-13 06:29:00,836 - SBI_REPO_DOWNLOADER - INFO - Found 5 items in 2025 directory
+2025-05-13 06:29:00,836 - SBI_REPO_DOWNLOADER - INFO - Download summary: 0 files downloaded, 0 files skipped
+2025-05-13 06:29:00,836 - SBI_REPO_DOWNLOADER - INFO - Merging 0 downloaded files to downloads directory...
+2025-05-13 06:29:00,837 - SBI_REPO_DOWNLOADER - INFO - Successfully moved 0 out of 0 files to downloads directory
+2025-05-13 06:29:00,837 - SBI_REPO_DOWNLOADER - WARNING - temp_downloads directory not empty, contains 6 files, skipping removal
+2025-05-13 06:29:00,837 - SBI_REPO_DOWNLOADER - INFO - Verifying downloads...
+2025-05-13 06:29:00,837 - SBI_REPO_DOWNLOADER - INFO - Found 0 PDF files in 2020 directory
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - Found 0 PDF files in 2021 directory
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - Found 0 PDF files in 2022 directory
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - Found 0 PDF files in 2023 directory
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - Found 0 PDF files in 2024 directory
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - Found 0 PDF files in 2025 directory
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - Total PDFs across all years: 0
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - Verified 0 out of 0 files were moved correctly
+2025-05-13 06:29:00,838 - SBI_REPO_DOWNLOADER - INFO - SBI Repository Downloader execution completed with result: Success
