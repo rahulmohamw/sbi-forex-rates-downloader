@@ -1,0 +1,35 @@
+2025-05-13 04:33:23,900 - ONE_TIME_REPO_DOWNLOADER - INFO - One-time SBI GitHub Repository Downloader Started
+2025-05-13 04:33:23,901 - ONE_TIME_REPO_DOWNLOADER - INFO - Downloading files up to 2025-05-08
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_AED.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_AUD.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_BDT.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_BHD.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_CAD.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_CHF.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_CNY.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_DKK.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_EUR.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_GBP.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_HKD.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_JPY.csv as it's after the cutoff date
+2025-05-13 04:33:24,014 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_KES.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_KRW.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_KWD.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_LKR.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_MYR.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_NOK.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_NZD.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_OMR.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_PKR.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_QAR.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_RUB.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_SAR.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_SEK.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_SGD.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_THB.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_TRY.csv as it's after the cutoff date
+2025-05-13 04:33:24,015 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_USD.csv as it's after the cutoff date
+2025-05-13 04:33:24,016 - ONE_TIME_REPO_DOWNLOADER - INFO - Skipping SBI_REFERENCE_RATES_ZAR.csv as it's after the cutoff date
+2025-05-13 04:33:24,016 - ONE_TIME_REPO_DOWNLOADER - INFO - Merging downloaded files to downloads directory...
+2025-05-13 04:33:24,016 - ONE_TIME_REPO_DOWNLOADER - INFO - Removed empty temp_downloads directory
+2025-05-13 04:33:24,016 - ONE_TIME_REPO_DOWNLOADER - INFO - One-time Repository Downloader execution completed
