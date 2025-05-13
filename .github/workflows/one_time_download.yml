@@ -26,7 +26,7 @@ jobs:
         pip install requests pathlib
     
     - name: Run one-time downloader script
-      run: python one_time_repo_download.py
+      run: python one_time_downloader.py
     
     - name: Commit and push changes
       run: |
