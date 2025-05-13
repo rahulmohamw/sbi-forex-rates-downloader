@@ -7,9 +7,9 @@ import logging
 from pathlib import Path
 import shutil
 
-# Set up logging
+# Set up logging with more detail
 logging.basicConfig(
-    level=logging.INFO,
+    level=logging.DEBUG,  # Changed to DEBUG for more detailed logs
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.FileHandler("one_time_repo_download.log"),
@@ -18,27 +18,55 @@ logging.basicConfig(
 )
 logger = logging.getLogger("ONE_TIME_REPO_DOWNLOADER")
 
-# GitHub API URL for the repository
-REPO_API_URL = "https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/csv_files"
+# GitHub API URL for the repository base (pdf_files instead of csv_files)
+REPO_API_URL = "https://api.github.com/repos/sahilgupta/sbi-fx-ratekeeper/contents/pdf_files"
+
+# List of years to process
+YEARS_TO_PROCESS = ["2020", "2021", "2022", "2023", "2024", "2025"]
 
 # Cutoff date - only download files up to May 8, 2025
 CUTOFF_DATE = datetime(2025, 5, 8)
 
 def setup_directories():
     """Create necessary directories if they don't exist"""
+    # Create temp downloads directory for staging files
     Path("temp_downloads").mkdir(exist_ok=True)
-    Path("downloads").mkdir(exist_ok=True)
+    
+    # Create main downloads directory
+    downloads_dir = Path("downloads")
+    downloads_dir.mkdir(exist_ok=True)
+    
+    # Create year subdirectories to match source repository structure
+    for year in YEARS_TO_PROCESS:
+        year_dir = downloads_dir / year
+        year_dir.mkdir(exist_ok=True)
+        logger.info(f"Created directory: {year_dir}")
+    
+    # Log existing files structure
+    logger.info("Checking existing files structure:")
+    for year in YEARS_TO_PROCESS:
+        year_path = downloads_dir / year
+        if year_path.exists():
+            files = list(year_path.glob("*.pdf"))
+            logger.info(f"Directory {year}: {len(files)} PDF files")
+            if files:
+                logger.debug(f"Sample files in {year}: {[f.name for f in files[:3]]}")
+    
+    return downloads_dir
 
 def download_file(url, filename):
     """Download a file from a URL and save it"""
     try:
+        logger.debug(f"Attempting to download from URL: {url}")
         response = requests.get(url)
         if response.status_code == 200:
             with open(filename, 'wb') as f:
                 f.write(response.content)
+            logger.debug(f"File saved to {filename} with size {os.path.getsize(filename)} bytes")
             return True
         else:
             logger.error(f"Failed to download {url}, status code: {response.status_code}")
+            logger.debug(f"Response content: {response.text[:200]}...")
             return False
     except Exception as e:
         logger.error(f"Error downloading {url}: {e}")
@@ -53,9 +81,10 @@ def extract_date_from_filename(filename):
         
         if match:
             day, month, year = match.group(1), match.group(2), match.group(3)
+            logger.debug(f"Extracted date from {filename}: {day}/{month}/{year}")
             return datetime(int(year), int(month), int(day))
         else:
-            # If no match, use current date
+            logger.warning(f"Could not extract date from {filename}, using current date")
             return datetime.now()
     except Exception as e:
         logger.error(f"Error extracting date from filename {filename}: {e}")
@@ -63,66 +92,85 @@ def extract_date_from_filename(filename):
 
 def is_before_cutoff(file_date):
     """Check if file date is before or equal to cutoff date"""
-    return file_date <= CUTOFF_DATE
+    result = file_date <= CUTOFF_DATE
+    logger.debug(f"File date {file_date.strftime('%Y-%m-%d')} is {'before' if result else 'after'} cutoff date {CUTOFF_DATE.strftime('%Y-%m-%d')}")
+    return result
 
 def download_from_github_repo():
     """Download files from GitHub repository up to cutoff date"""
-    setup_directories()
+    downloads_dir = setup_directories()
     downloaded_files = []
+    skipped_files = []
     
     try:
-        # Get repository contents
-        response = requests.get(REPO_API_URL)
-        if response.status_code != 200:
-            logger.error(f"Failed to get repository contents, status code: {response.status_code}")
-            return False
-        
-        contents = json.loads(response.text)
-        
-        for item in contents:
-            if item['type'] == 'file' and (item['name'].endswith('.pdf') or item['name'].endswith('.csv')):
-                # Extract date from filename
-                file_date = extract_date_from_filename(item['name'])
-                
-                # Only download if before cutoff date
-                if is_before_cutoff(file_date):
-                    # Destination filename in temp directory
-                    dest_filename = os.path.join("temp_downloads", item['name'])
-                    
-                    # Skip if file already exists in final downloads directory
-                    final_filename = os.path.join("downloads", item['name'])
-                    if os.path.exists(final_filename):
-                        logger.info(f"File {final_filename} already exists, skipping...")
-                        continue
-                    
-                    # Download the file
-                    logger.info(f"Downloading {item['name']} to {dest_filename}...")
-                    download_success = download_file(item['download_url'], dest_filename)
-                    
-                    if download_success:
-                        logger.info(f"Successfully downloaded {item['name']}")
-                        downloaded_files.append(dest_filename)
-                    else:
-                        logger.error(f"Failed to download {item['name']}")
-                else:
-                    logger.info(f"Skipping {item['name']} as it's after the cutoff date")
+        # Process each year directory
+        for year in YEARS_TO_PROCESS:
+            year_api_url = f"{REPO_API_URL}/{year}"
+            logger.info(f"Processing year directory: {year} from {year_api_url}")
             
-            elif item['type'] == 'dir':
-                # If it's a directory, process it recursively
-                process_directory(item['url'], downloaded_files)
+            # Get year directory contents
+            response = requests.get(year_api_url)
+            
+            if response.status_code == 200:
+                contents = json.loads(response.text)
+                logger.info(f"Found {len(contents)} items in {year} directory")
+                
+                # Process each file in the year directory
+                for item in contents:
+                    if item['type'] == 'file' and item['name'].endswith('.pdf'):
+                        # Extract date from filename
+                        file_date = extract_date_from_filename(item['name'])
+                        
+                        # Only download if before cutoff date
+                        if is_before_cutoff(file_date):
+                            # Use year-based directory structure for both temp and final paths
+                            temp_year_dir = Path("temp_downloads") / year
+                            temp_year_dir.mkdir(exist_ok=True)
+                            
+                            dest_filename = temp_year_dir / item['name']
+                            final_filename = downloads_dir / year / item['name']
+                            
+                            # Skip if file already exists in final downloads directory
+                            if final_filename.exists():
+                                logger.info(f"File {final_filename} already exists, skipping...")
+                                skipped_files.append(str(final_filename))
+                                continue
+                            
+                            # Download the file
+                            logger.info(f"Downloading {item['name']} to {dest_filename}...")
+                            download_success = download_file(item['download_url'], dest_filename)
+                            
+                            if download_success:
+                                logger.info(f"Successfully downloaded {item['name']}")
+                                downloaded_files.append(str(dest_filename))
+                            else:
+                                logger.error(f"Failed to download {item['name']}")
+                        else:
+                            logger.info(f"Skipping {item['name']} as it's after the cutoff date")
+            else:
+                logger.error(f"Failed to get year directory contents for {year}, status code: {response.status_code}")
+                logger.debug(f"Response content: {response.text[:200]}...")
+        
+        # Summary before merging
+        logger.info(f"Download summary: {len(downloaded_files)} files downloaded, {len(skipped_files)} files skipped")
         
         # After downloading all files, merge them into the downloads directory
         merge_files_to_downloads(downloaded_files)
+        
+        # Final verification
+        verify_downloads(downloads_dir, downloaded_files)
                 
         return True
                 
     except Exception as e:
-        logger.error(f"Error processing GitHub repository: {e}")
+        logger.error(f"Error processing GitHub repository: {e}", exc_info=True)
         return False
 
-def process_directory(directory_url, downloaded_files):
+def process_directory(directory_url, downloaded_files, skipped_files):
     """Process a directory in the repository recursively"""
     try:
+        logger.info(f"Processing directory: {directory_url}")
+        
         # Get directory contents
         response = requests.get(directory_url)
         if response.status_code != 200:
@@ -130,8 +178,11 @@ def process_directory(directory_url, downloaded_files):
             return
         
         contents = json.loads(response.text)
+        logger.info(f"Found {len(contents)} items in directory")
         
         for item in contents:
+            logger.debug(f"Processing item in directory: {item.get('name', 'unknown')}, type: {item.get('type', 'unknown')}")
+            
             if item['type'] == 'file' and (item['name'].endswith('.pdf') or item['name'].endswith('.csv')):
                 # Extract date from filename
                 file_date = extract_date_from_filename(item['name'])
@@ -145,6 +196,7 @@ def process_directory(directory_url, downloaded_files):
                     final_filename = os.path.join("downloads", item['name'])
                     if os.path.exists(final_filename):
                         logger.info(f"File {final_filename} already exists, skipping...")
+                        skipped_files.append(item['name'])
                         continue
                     
                     # Download the file
@@ -161,35 +213,120 @@ def process_directory(directory_url, downloaded_files):
             
             elif item['type'] == 'dir':
                 # If it's a directory, process it recursively
-                process_directory(item['url'], downloaded_files)
+                logger.info(f"Found nested directory: {item['name']}, processing recursively")
+                process_directory(item['url'], downloaded_files, skipped_files)
                 
     except Exception as e:
-        logger.error(f"Error processing directory {directory_url}: {e}")
+        logger.error(f"Error processing directory {directory_url}: {e}", exc_info=True)
 
 def merge_files_to_downloads(file_list):
-    """Move downloaded files from temp directory to downloads directory"""
-    logger.info("Merging downloaded files to downloads directory...")
+    """Move downloaded files from temp directory to downloads directory while maintaining year structure"""
+    logger.info(f"Merging {len(file_list)} downloaded files to downloads directory...")
     
+    moved_count = 0
     for file_path in file_list:
-        filename = os.path.basename(file_path)
-        destination = os.path.join("downloads", filename)
+        file_path = Path(file_path)
+        
+        # Extract year from the path structure (temp_downloads/YEAR/filename)
+        year = file_path.parent.name
+        filename = file_path.name
+        
+        # Destination preserves the year structure
+        destination = Path("downloads") / year / filename
         
         try:
-            shutil.move(file_path, destination)
-            logger.info(f"Moved {filename} to downloads directory")
+            # Check if source file exists and has content
+            if not file_path.exists():
+                logger.error(f"Source file {file_path} does not exist")
+                continue
+                
+            file_size = file_path.stat().st_size
+            logger.debug(f"Moving file {filename} with size {file_size} bytes to {destination}")
+            
+            # Ensure destination directory exists
+            destination.parent.mkdir(exist_ok=True)
+            
+            # Move the file
+            shutil.move(str(file_path), str(destination))
+            moved_count += 1
+            logger.info(f"Moved {filename} to {destination}")
         except Exception as e:
-            logger.error(f"Error moving {filename}: {e}")
+            logger.error(f"Error moving {filename}: {e}", exc_info=True)
+    
+    logger.info(f"Successfully moved {moved_count} out of {len(file_list)} files to downloads directory")
     
     # Try to remove the temp directory if it's empty
     try:
-        if not os.listdir("temp_downloads"):
-            os.rmdir("temp_downloads")
-            logger.info("Removed empty temp_downloads directory")
+        temp_dir = Path("temp_downloads")
+        if temp_dir.exists():
+            # Check if any files remain in temp_downloads or its subdirectories
+            remaining_files = list(temp_dir.glob("**/*"))
+            if not remaining_files:
+                shutil.rmtree(temp_dir)
+                logger.info("Removed empty temp_downloads directory and its subdirectories")
+            else:
+                logger.warning(f"temp_downloads directory not empty, contains {len(remaining_files)} files, skipping removal")
     except Exception as e:
-        logger.error(f"Error removing temp_downloads directory: {e}")
+        logger.error(f"Error removing temp_downloads directory: {e}", exc_info=True)
+
+def verify_downloads(downloads_dir, downloaded_files):
+    """Verify that files were correctly downloaded and moved"""
+    logger.info("Verifying downloads...")
+    
+    # Check if downloads directory exists
+    if not Path(downloads_dir).exists():
+        logger.error(f"Downloads directory {downloads_dir} does not exist")
+        return
+    
+    # Count files in each year directory
+    total_files = 0
+    for year in YEARS_TO_PROCESS:
+        year_path = Path(downloads_dir) / year
+        if year_path.exists():
+            files = list(year_path.glob("*.pdf"))
+            file_count = len(files)
+            total_files += file_count
+            logger.info(f"Found {file_count} PDF files in {year} directory")
+    
+    logger.info(f"Total PDFs across all years: {total_files}")
+    
+    # Check for specific files that should have been moved
+    successful_moves = 0
+    for temp_file_path in downloaded_files:
+        temp_file_path = Path(temp_file_path)
+        year = temp_file_path.parent.name
+        filename = temp_file_path.name
+        
+        final_path = Path(downloads_dir) / year / filename
+        
+        if final_path.exists():
+            successful_moves += 1
+            logger.debug(f"Verified file exists in downloads: {final_path}")
+        else:
+            logger.warning(f"File not found in downloads: {final_path}")
+    
+    logger.info(f"Verified {successful_moves} out of {len(downloaded_files)} files were moved correctly")
 
 if __name__ == "__main__":
-    logger.info("One-time SBI GitHub Repository Downloader Started")
+    logger.info("Enhanced One-time SBI GitHub Repository Downloader Started")
     logger.info(f"Downloading files up to {CUTOFF_DATE.strftime('%Y-%m-%d')}")
-    download_from_github_repo()
-    logger.info("One-time Repository Downloader execution completed")
+    logger.info(f"Processing year directories: {', '.join(YEARS_TO_PROCESS)}")
+    
+    # Check if the repository path is valid
+    logger.info(f"Testing repository access to {REPO_API_URL}")
+    try:
+        test_response = requests.get(REPO_API_URL)
+        if test_response.status_code == 200:
+            logger.info("Repository access successful")
+            repo_contents = json.loads(test_response.text)
+            years_found = [item['name'] for item in repo_contents if item['type'] == 'dir']
+            logger.info(f"Available years in repository: {years_found}")
+        else:
+            logger.error(f"Repository access failed with status code {test_response.status_code}")
+            logger.debug(f"Response: {test_response.text[:200]}...")
+    except Exception as e:
+        logger.error(f"Exception when testing repository access: {e}", exc_info=True)
+    
+    # Run the main download function
+    result = download_from_github_repo()
+    logger.info(f"One-time Repository Downloader execution completed with result: {'Success' if result else 'Failure'}")
