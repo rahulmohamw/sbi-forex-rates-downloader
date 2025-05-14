@@ -47,7 +47,7 @@ jobs:
     - name: Download and save file
       env:
         ANTHROPIC_API_KEY: ${{ secrets.anthropic_api_key }}
-      run: python main.py
+      run: python sbi_forex_downloader.py
 
     - name: Get current time
       uses: josStorer/get-current-time@v2.0.2
