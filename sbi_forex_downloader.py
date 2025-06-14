@@ -10,55 +10,51 @@ import base64
 import json
 
 # Check for required dependencies
-required_packages = [
-    'dateutil',
-    'anthropic', 
-    'magic',
-    'PyPDF2',
-    'requests',
-    'fp.fp',
-    'pdf2image',
-    'requests_html',
-    'urllib3'
+import importlib.util
+
+required_imports = [
+    ('dateutil', 'python-dateutil'),
+    ('anthropic', 'anthropic'), 
+    ('magic', 'python-magic'),
+    ('PyPDF2', 'PyPDF2'),
+    ('requests', 'requests'),
+    ('fp', 'free-proxy'),
+    ('pdf2image', 'pdf2image'),
+    ('requests_html', 'requests-html'),
+    ('urllib3', 'urllib3')
 ]
 
 missing_packages = []
-for package in required_packages:
+for import_name, package_name in required_imports:
     try:
-        if package == 'dateutil':
+        if import_name == 'dateutil':
             from dateutil import parser
-        elif package == 'anthropic':
+        elif import_name == 'anthropic':
             import anthropic
-        elif package == 'magic':
+        elif import_name == 'magic':
             import magic
-        elif package == 'PyPDF2':
+        elif import_name == 'PyPDF2':
             import PyPDF2
-        elif package == 'requests':
+        elif import_name == 'requests':
             import requests
-        elif package == 'fp.fp':
+        elif import_name == 'fp':
             from fp.fp import FreeProxy
-        elif package == 'pdf2image':
+        elif import_name == 'pdf2image':
             from pdf2image import convert_from_bytes
-        elif package == 'requests_html':
+        elif import_name == 'requests_html':
             from requests_html import HTMLSession
-        elif package == 'urllib3':
+        elif import_name == 'urllib3':
             from urllib3.util.retry import Retry
     except ImportError:
-        missing_packages.append(package)
+        missing_packages.append(package_name)
 
 if missing_packages:
     print(f"ERROR: Missing required packages: {', '.join(missing_packages)}")
     print("Please install them using:")
     print("pip install -r requirements.txt")
     print("\nOr install individually:")
-    package_map = {
-        'dateutil': 'python-dateutil',
-        'magic': 'python-magic',
-        'fp.fp': 'free-proxy'
-    }
     for pkg in missing_packages:
-        install_name = package_map.get(pkg, pkg)
-        print(f"pip install {install_name}")
+        print(f"pip install {pkg}")
     sys.exit(1)
 
 # Now import everything after checking
