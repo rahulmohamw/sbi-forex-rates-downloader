@@ -7,3 +7,6 @@ free-proxy>=1.1.1
 pdf2image>=1.16.0
 requests-html>=0.10.0
 urllib3>=1.26.0
+pyquery>=1.4.3
+lxml>=4.6.0
+cssselect>=1.1.0
